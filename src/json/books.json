@@ -1,0 +1,40 @@
+{
+    "Popular":[
+        {
+            "bookname": "Fashionopolis",
+            "writer": "Dana Thomas",
+            "image": "0"
+        },
+        {
+            "bookname": "Chanel",
+            "writer": "Patrick Mauriès",
+            "image": "1"
+        },
+        {
+            "bookname": "Calligraphy",
+            "writer": "June & Lucy",
+            "image": "2"
+        }
+    ],
+    "Newest":[
+        {
+            "bookname": "Yves Saint Laurent",
+            "writer": "Suzy Menkes",
+            "image": "3",
+            "stars": 4,
+            "intro": "A spectacular visual journey through 40 years of \n haute couture from one of the best-known and \n          most trend-setting brands in fashion."
+        },
+        {
+            "bookname": "The Book of Signs",
+            "writer": "Rudolf Koch",
+            "image": "4",
+            "stars": 3
+        },
+        {
+            "bookname": "Stitched Up",
+            "writer": "Tancy E. Hoskins",
+            "image": "5",
+            "stars": 3
+        }
+    ]
+}
