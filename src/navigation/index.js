@@ -1,125 +1,144 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
-import { View, StyleSheet, Pressable, Image, Text } from "react-native";
-import { Divider, useTheme } from '@rneui/themed';
-
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Platform } from "react-native";
+import { Pressable, Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem } from '@gluestack-ui/themed';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import BookScreen from '../screen/HomeScreen';
-import DetailScreen from '../screen/DetailScreen';
-import Wishlist from '../screen/WishlistScreen';
-import MyBookScreen from '../screen/MybooksScreen';
-import AccountScreen from '../screen/AccountScreen';
+import HomeScreen from '../screen/HomeScreen';
+import AddScreen from '../screen/AddScreen';
+import ListsExpenditrueScreen from '../screen/listsScreen';
+import AnalysisExpenditrueScreen from '../screen/Analysis_expenditureScreen';
+import AnalysisEarningScreen from '../screen/Analysis_earningsScreen';
 import SettingScreen from '../screen/SettingScreen';
-
-import active from "../image/icon_bookmark_actived.png"
-import inactive from "../image/icon_bookmark.png"
+import ListEarningScreen from '../screen/List_earningScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
-
-var isPressed = false;
+const TopTab = createMaterialTopTabNavigator();
 
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <MyDrawer />
+            <MyStack />
         </NavigationContainer>
     );
 }
 
-const MyDrawer = () => {
+const MyStack = () => {
+    const navigation = useNavigation();
     return (
-        <Drawer.Navigator
-            initialRouteName='HomeStack'
+        <Stack.Navigator
             screenOptions={{
-                drawerStyle: {width: 250}
-            }}
-            drawerContent={props => <CustomDrawer {...props} />}
-        >
-            <Drawer.Screen
-                name="HomeTab"
+                headerShadowVisible: false
+
+            }}>
+            <Stack.Screen
+                name="HomeTabs"
                 component={MyTabs}
                 options={{
-                    headerShown: false,
-                    title: "Home",
-                    drawerIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="home" color={color} size={24} />
+                    title: '',
+                    headerRight: () => (
+                        <Pressable onPress={() => navigation.navigate("Setting")}>
+                            <MaterialCommunityIcons name="cog-outline" size={30} />
+                        </Pressable>
+                    ),
+                    headerLeft: () => (
+                        <Select initialLabel='2024/03' w={90}>
+                            <SelectTrigger variant="underlined" size="sm">
+                                <SelectInput />
+                                <SelectIcon mr="$3">
+                                    <Icon as={ChevronDownIcon} />
+                                </SelectIcon>
+                            </SelectTrigger>
+                            <SelectPortal>
+                                <SelectBackdrop />
+                                <SelectContent>
+                                    <SelectDragIndicatorWrapper>
+                                        <SelectDragIndicator />
+                                    </SelectDragIndicatorWrapper>
+                                    <SelectItem label="2024/03" value="2403" />
+                                    <SelectItem label="2024/02" value="2402" />
+                                    <SelectItem label="2024/01" value="2401" />
+                                    <SelectItem label="2023/12" value="2312" />
+                                    <SelectItem label="2023/11" value="2311" />
+                                </SelectContent>
+                            </SelectPortal>
+                        </Select>
                     ),
                 }}
             />
-            <Drawer.Screen
-                name="Account"
-                component={AccountScreen}
-                options={{
-                    headerShown: true,
-                    title: "Account",
-                    drawerIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="account-circle" color={color} size={24} />
-                    ),
-                }}
-            />
-            <Drawer.Screen
+            <Stack.Screen
                 name="Setting"
                 component={SettingScreen}
                 options={{
-                    headerShown: true,
-                    title: "Setting",
-                    drawerIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="cog" color={color} size={24} />
-                    ),
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontSize: 32
+                    }
                 }}
             />
-        </Drawer.Navigator>
+            <Stack.Screen
+                name="Detail"
+                component={AddScreen}
+                options={{
+                    title: ""
+                }}
+            />
+        </Stack.Navigator>
     );
 }
 
 const MyTabs = () => {
+    const inset = useSafeAreaInsets();
     return (
         <Tab.Navigator
             initialRouteName="HomeStack"
             screenOptions={{
                 tabBarActiveTintColor: '#6200EE',
-                tabBarStyle: {height: 56},
-                tabBarIconStyle:{marginTop: 8},
-                tabBarLabelStyle:{fontSize: 12, marginBottom: 8}
+                tabBarStyle: { height: 80, backgroundColor: '#D9D9D9', paddingBottom: Platform.OS === 'ios' ? 12 : 0},
+                tabBarIconStyle: { marginTop: Platform.OS ==='android' ? 12 : 8},
+                tabBarLabelStyle: { 
+                    fontSize: 16, 
+                    marginBottom: Platform.OS ==='android' ? 8 : 0,
+                    paddingBottom: Platform.OS ==='android' ? 0 : 0
+                  },
             }}
         >
             <Tab.Screen
+                name="AnalysisStack"
+                component={AnalysisTab}
+                options={{
+                    headerShown: false,
+                    title: "analysis",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="align-vertical-bottom" color={color} size={40} />
+                    ),
+                }}
+            />
+            <Tab.Screen
                 name="HomeStack"
-                component={StackNavigator}
+                component={HomeScreen}
                 options={{
                     headerShown: false,
                     title: "Home",
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="home" color={color} size={24} />
+                        <MaterialCommunityIcons name="home" color={color} size={40} />
                     ),
                 }}
             />
             <Tab.Screen
-                name="Wishlist"
-                component={Wishlist}
+                name="Lists"
+                component={ListsTab}
                 options={{
                     headerShown: false,
-                    title: "Wishlist",
+                    title: "lists",
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="bookmark" color={color} size={24} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="MyBook"
-                component={MyBookScreen}
-                options={{
-                    headerShown: false,
-                    title: "My books",
-                    tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="book-open" color={color} size={24} />
+                        <MaterialCommunityIcons name="format-list-bulleted" color={color} size={40} />
                     ),
                 }}
             />
@@ -128,118 +147,37 @@ const MyTabs = () => {
     );
 }
 
-const CustomDrawer = (props) => {
+const AnalysisTab = () => {
     return (
-        <DrawerContentScrollView {...props}>
-            <View>
-                <Image
-                    source={require("../image/img_avatar.png")}
-                    style={{
-                        marginLeft: 20,
-                        marginTop: 30,
-                        marginBottom: 15
-                    }}
-                />
-                <Text
-                    style={{
-                        marginLeft: 20,
-                        fontSize: 24,
-                        fontWeight: "500",
-                        marginBottom: 15
-                    }}
-                >May</Text>
-            </View>
-            <Divider style={{ marginBottom: 10 }}/>
-            <DrawerItemList {...props} />
-        </DrawerContentScrollView>
-    );
-}
-
-const HomeTitle = ({ navigation }) => {
-    return (
-        <View style={styles.headerStyle}>
-            <Pressable
-                style={styles.pressableStyle}
-                onPress={() => navigation.openDrawer()}
-            >
-                <Image source={require("../image/icon_menu.png")} />
-            </Pressable>
-            <Pressable style={styles.pressableStyle}>
-                <Image source={require("../image/icon_search.png")} />
-            </Pressable>
-        </View>
-    );
-}
-
-const DetailTitle = () => {
-    const [PressState, setPressState] = useState(0);
-
-    var mark = PressState ? active : inactive;
-    return (
-        <View style={styles.DetitleStyle}>
-            <Pressable
-                style={styles.pressableStyle}
-                // 回到主頁之後就會換圖片
-                onPressIn={() => setPressState(!PressState)}
-            >
-                <Image source={mark}/>
-            </Pressable>
-        </View>
-    );
-}
-
-const StackNavigator = ({ navigation }) => {
-
-
-    return (
-        <Stack.Navigator
+        <TopTab.Navigator
+            id='Analysis'
             screenOptions={{
-                headerShadowVisible: false
+                tabBarStyle: { backgroundColor: '#9d9d9d', height: 56 },
+                tabBarLabelStyle: { textTransform: 'none', fontSize: 16, fontWeight: '600' },
+                tabBarIndicatorStyle: { backgroundColor: '#000' }
+            }}
+
+        >
+            <TopTab.Screen name="earnings" component={AnalysisEarningScreen} />
+            <TopTab.Screen name="expenditure" component={AnalysisExpenditrueScreen} />
+        </TopTab.Navigator>
+    );
+}
+
+const ListsTab = () => {
+    return (
+        <TopTab.Navigator
+            id='Lists'
+            screenOptions={{
+                tabBarStyle: { backgroundColor: '#9d9d9d', height: 56 },
+                tabBarLabelStyle: { textTransform: 'none', fontSize: 16, fontWeight: '600' },
+                tabBarIndicatorStyle: { backgroundColor: '#000' }
             }}
         >
-            <Stack.Screen
-                name="Home"
-                component={BookScreen}
-                options={{ headerTitle: () => <HomeTitle navigation={navigation} /> }}
-            />
-            <Stack.Screen
-                name="Detail"
-                component={DetailScreen}
-                options={{
-                    headerTitle: () => <DetailTitle />,
-                    headerBackImageSource: require("../image/icon_back.png")
-                    
-                }}
-            />
-        </Stack.Navigator>
+            <TopTab.Screen name="earnings" component={ListEarningScreen} />
+            <TopTab.Screen name="expenditure" component={ListsExpenditrueScreen} />
+        </TopTab.Navigator>
     );
 }
-
-const styles = StyleSheet.create({
-    headerStyle: {
-        backgroundColor: "#fff",
-        width: '100%',
-        height: 56,
-        padding: 8,
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        right: 16
-    },
-    pressableStyle: {
-        width: 40,
-        height: 40,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    DetitleStyle: {
-        backgroundColor: "#fff",
-        width: '92%',
-        height: 56,
-        padding: 8,
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-    },
-});
 
 export default Navigation;
