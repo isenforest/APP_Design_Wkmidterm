@@ -99,7 +99,7 @@ const MyTabs = () => {
         <Tab.Navigator
             initialRouteName="HomeStack"
             screenOptions={{
-                tabBarActiveTintColor: '#6200EE',
+                tabBarActiveTintColor: '#000',
                 tabBarStyle: { height: 80, backgroundColor: '#D9D9D9', paddingBottom: Platform.OS === 'ios' ? 12 : 0},
                 tabBarIconStyle: { marginTop: Platform.OS ==='android' ? 12 : 8},
                 tabBarLabelStyle: { 

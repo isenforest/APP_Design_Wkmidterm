@@ -1,9 +1,13 @@
 import React, { createContext, useContext, useReducer} from "react";
 import { Box, HStack, Divider, Text } from '@gluestack-ui/themed';
+import { StoreContext } from "./stores";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const moneylist = () => {
+
+    const {addStore} = useContext(StoreContext);
+
     return(
         <Box w={278} pb={10} borderWidth={2} borderColor="$black" borderRadius="$2xl">
             <HStack p={10}>
