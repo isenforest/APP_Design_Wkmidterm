@@ -83,7 +83,7 @@ const MyStack = () => {
                 }}
             />
             <Stack.Screen
-                name="Detail"
+                name="Add"
                 component={AddScreen}
                 options={{
                     title: ""

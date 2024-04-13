@@ -8,7 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const addlist = ({ navigation }) => {
     const inset = useSafeAreaInsets();
     return (
-        <Pressable position="absolute" right={32} bottom={Platform.OS === "android" ? -180 : (-180 + inset.bottom) } onPress={() => navigation.navigate("Detail")}>
+        <Pressable position="absolute" right={32} bottom={Platform.OS === "android" ? -180 : (-180 + inset.bottom) } onPress={() => navigation.navigate("Add")}>
             <MaterialCommunityIcons name="plus-box-outline" size={60} />
         </Pressable>
     );
