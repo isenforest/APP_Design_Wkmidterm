@@ -150,6 +150,7 @@ const MyTabs = () => {
 const AnalysisTab = () => {
     return (
         <TopTab.Navigator
+            initialRouteName='expenditure'
             id='Analysis'
             screenOptions={{
                 tabBarStyle: { backgroundColor: '#9d9d9d', height: 56 },

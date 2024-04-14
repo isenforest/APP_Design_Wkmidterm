@@ -15,25 +15,32 @@ import {
   ButtonGroup,
   Text
 } from "@gluestack-ui/themed";
-import { React, useState, useContext } from "react";
-import { StoreContext } from "../components/stores";
+import { React, useState, useEffect } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectGeneral, setgeneral, setmaxer, setminer } from "../components/redux/counterSlice";
+
+
 
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddScreen = ({ navigation }) => {
 
-  const {addState} = useContext(StoreContext);
+  const general = useSelector(selectGeneral);
 
 
-  const [changetime, setchangeTime] = useState("");
+  const [date, setDate] = useState("");
   const [timeIsError, setTimeIsError] = useState(false);
-  const [changetype, setchangeType] = useState("");
+  const [type, setType] = useState("");
   const [typeIsError, setTypeIsError] = useState(false);
-  const [changemoney, setchangeMoney] = useState("");
+  const [money, setMoney] = useState("");
   const [moneyIsError, setMoneyIsError] = useState(false);
 
-  const [list, setList] = useState(addState);
+  const dispatch = useDispatch();
+
+
+
 
   const dateRegex = /\d{2}\/\d{1,2}\/\d{1,2}/
 
@@ -54,9 +61,9 @@ const AddScreen = ({ navigation }) => {
             >
               <InputField 
                 placeholder="yy/mm/dd" 
-                value={changetime} 
+                value={date} 
                 onChangeText={text => {
-                  setchangeTime(text);
+                  setDate(text);
                   if(dateRegex.test(text)) setTimeIsError(false);
                   else setTimeIsError(true);
                 }}
@@ -85,9 +92,9 @@ const AddScreen = ({ navigation }) => {
             >
               <InputField 
                 placeholder="breakfast" 
-                value={changetype} 
+                value={type} 
                 onChangeText={text => {
-                  setchangeType(text);
+                  setType(text);
                 }}/>
             </Input>
             <FormControlError>
@@ -116,9 +123,9 @@ const AddScreen = ({ navigation }) => {
               </InputSlot>
               <InputField 
                 placeholder="0" 
-                value={changemoney} 
+                value={money} 
                 onChangeText={text => {
-                  setchangeMoney(text);
+                  setMoney(text);
                 }}/>
             </Input>
             <FormControlError>
@@ -141,7 +148,7 @@ const AddScreen = ({ navigation }) => {
             isFocusVisible={false}
             backgroundColor="#d9d9d9"
             onPress={() => {
-              setList({time: changetime, type: changetype, money: changemoney});
+              dispatch(setgeneral({ date, type, money }));
               navigation.navigate('HomeTabs');
             }}
           >
