@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "accounting_book_midterm",
-    "slug": "accounting_book_midterm",
+    "name": "mid_10_speedyaccounts",
+    "slug": "mid_10_speedyaccounts",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -30,11 +30,11 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/8e2e65f6-2838-4139-8cff-96f0b27591b2"
+      "url": "https://u.expo.dev/0d2f2dd9-b5e2-4be4-9bfe-7bc9e9d980b3"
     },
     "extra": {
       "eas": {
-        "projectId": "8e2e65f6-2838-4139-8cff-96f0b27591b2"
+        "projectId": "0d2f2dd9-b5e2-4be4-9bfe-7bc9e9d980b3"
       }
     }
   }
