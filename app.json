@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "wk3s",
-    "slug": "wk3s",
+    "name": "accounting_book_midterm",
+    "slug": "accounting_book_midterm",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f7660536-aa3f-4aa8-ab0a-87ddaf091d45"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f7660536-aa3f-4aa8-ab0a-87ddaf091d45"
     }
   }
 }
