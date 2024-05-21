@@ -47,7 +47,7 @@ const AddScreen = ({ navigation }) => {
   return (
     <Box flex={1} backgroundColor="#fff">
       <VStack mt={40}>
-      <Box mb={30}>
+        <Box mb={30}>
           <FormControl marginHorizontal={40} isInvalid={timeIsError === true ? true : false}>
             <FormControlLabel>
               <FormControlLabelText fontSize={20}>
@@ -57,14 +57,14 @@ const AddScreen = ({ navigation }) => {
             <Input
               variant="underlined"
               size="md"
-              
+
             >
-              <InputField 
-                placeholder="yy/mm/dd" 
-                value={date} 
+              <InputField
+                placeholder="yy/mm/dd"
+                value={date}
                 onChangeText={text => {
                   setDate(text);
-                  if(dateRegex.test(text)) setTimeIsError(false);
+                  if (dateRegex.test(text)) setTimeIsError(false);
                   else setTimeIsError(true);
                 }}
               />
@@ -90,12 +90,12 @@ const AddScreen = ({ navigation }) => {
               isInvalid={false}
               isReadOnly={false}
             >
-              <InputField 
-                placeholder="breakfast" 
-                value={type} 
+              <InputField
+                placeholder="breakfast"
+                value={type}
                 onChangeText={text => {
                   setType(text);
-                }}/>
+                }} />
             </Input>
             <FormControlError>
               <FormControlErrorText>
@@ -121,12 +121,12 @@ const AddScreen = ({ navigation }) => {
               <InputSlot pl="$3">
                 <InputIcon as={() => <MaterialCommunityIcons name={"currency-usd"} size={18} />} />
               </InputSlot>
-              <InputField 
-                placeholder="0" 
-                value={money} 
+              <InputField
+                placeholder="0"
+                value={money}
                 onChangeText={text => {
                   setMoney(text);
-                }}/>
+                }} />
             </Input>
             <FormControlError>
               <FormControlErrorText>
@@ -148,7 +148,12 @@ const AddScreen = ({ navigation }) => {
             isFocusVisible={false}
             backgroundColor="#d9d9d9"
             onPress={() => {
-              dispatch(setgeneral({ date, type, money }));
+              dispatch(setgeneral(
+                {
+                  date: date,
+                  type: type,
+                  money: money
+                }));
               navigation.navigate('HomeTabs');
             }}
           >
