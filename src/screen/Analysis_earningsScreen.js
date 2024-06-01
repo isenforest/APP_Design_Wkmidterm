@@ -57,7 +57,7 @@ const Analysis_earningScreen = () => {
     const most = parseInt(general.money) > 2000 ? general.money : 2000;
 
     return (
-        <Box flex={1} backgroundColor='#fff'>
+        <Box flex={1} backgroundColor='#C5F5E1'>
             <PieChart
                 data={data}
                 width={windowWidth - 15}

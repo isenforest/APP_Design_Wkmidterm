@@ -1,4 +1,4 @@
-import { FormControlError } from "@gluestack-ui/themed";
+import { Center, FormControlError } from "@gluestack-ui/themed";
 import {
   VStack,
   Box,
@@ -13,9 +13,10 @@ import {
   Button,
   ButtonText,
   ButtonGroup,
-  Text
+  Image
 } from "@gluestack-ui/themed";
 import { React, useState, useEffect } from "react";
+import moment from "moment";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectGeneral, setgeneral, setmaxer, setminer } from "../components/redux/counterSlice";
@@ -29,8 +30,9 @@ const AddScreen = ({ navigation }) => {
 
   const general = useSelector(selectGeneral);
 
+  const currentTime = moment().format("YY/MM/DD");
 
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(currentTime);
   const [timeIsError, setTimeIsError] = useState(false);
   const [type, setType] = useState("");
   const [typeIsError, setTypeIsError] = useState(false);
@@ -39,15 +41,15 @@ const AddScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-
+  console.log(currentTime)
 
 
   const dateRegex = /\d{2}\/\d{1,2}\/\d{1,2}/
 
   return (
-    <Box flex={1} backgroundColor="#fff">
+    <Box flex={1} backgroundColor="#C5F5E1">
       <VStack mt={40}>
-        <Box mb={30}>
+        <Box mb={20}>
           <FormControl marginHorizontal={40} isInvalid={timeIsError === true ? true : false}>
             <FormControlLabel>
               <FormControlLabelText fontSize={20}>
@@ -57,10 +59,9 @@ const AddScreen = ({ navigation }) => {
             <Input
               variant="underlined"
               size="md"
-
             >
               <InputField
-                placeholder="yy/mm/dd"
+                placeholder={"YY/MM/DD"}
                 value={date}
                 onChangeText={text => {
                   setDate(text);
@@ -76,7 +77,7 @@ const AddScreen = ({ navigation }) => {
             </FormControlError>
           </FormControl>
         </Box>
-        <Box mb={30}>
+        <Box mb={20}>
           <FormControl marginHorizontal={40}>
             <FormControlLabel>
               <FormControlLabelText fontSize={20}>
@@ -104,7 +105,7 @@ const AddScreen = ({ navigation }) => {
             </FormControlError>
           </FormControl>
         </Box>
-        <Box mb={30}>
+        <Box mb={20}>
           <FormControl marginHorizontal={40}>
             <FormControlLabel>
               <FormControlLabelText fontSize={20}>
@@ -154,13 +155,25 @@ const AddScreen = ({ navigation }) => {
                   type: type,
                   money: money
                 }));
-              navigation.navigate('HomeTabs');
+              setDate(currentTime);
+              setType("");
+              setMoney("");
+              navigation.navigate('HomeStack');
             }}
           >
             <ButtonText color="#000">save</ButtonText>
           </Button>
         </ButtonGroup>
       </VStack>
+      <Center>
+        <Image
+          width={300}
+          height={300}
+          borderRadius="$none"
+          source={require("../img/note-removebg-preview.png")}
+          alt="nothing"
+        />
+      </Center>
     </Box>
   );
 }

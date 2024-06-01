@@ -82,41 +82,33 @@ const MyStack = () => {
                     }
                 }}
             />
-            <Stack.Screen
-                name="Add"
-                component={AddScreen}
-                options={{
-                    title: ""
-                }}
-            />
         </Stack.Navigator>
     );
 }
 
 const MyTabs = () => {
-    const inset = useSafeAreaInsets();
     return (
         <Tab.Navigator
-            initialRouteName="HomeStack"
+            initialRouteName="Add"
             screenOptions={{
                 tabBarActiveTintColor: '#000',
-                tabBarStyle: { height: 80, backgroundColor: '#D9D9D9', paddingBottom: Platform.OS === 'ios' ? 12 : 0},
-                tabBarIconStyle: { marginTop: Platform.OS ==='android' ? 12 : 8},
-                tabBarLabelStyle: { 
-                    fontSize: 16, 
-                    marginBottom: Platform.OS ==='android' ? 8 : 0,
-                    paddingBottom: Platform.OS ==='android' ? 0 : 0
-                  },
+                tabBarStyle: { height: 80, backgroundColor: '#D9D9D9', paddingBottom: Platform.OS === 'ios' ? 12 : 0 },
+                tabBarIconStyle: { marginTop: Platform.OS === 'android' ? 12 : 8 },
+                tabBarLabelStyle: {
+                    fontSize: 16,
+                    marginBottom: Platform.OS === 'android' ? 8 : 0,
+                    paddingBottom: Platform.OS === 'android' ? 0 : 0
+                },
             }}
         >
             <Tab.Screen
-                name="AnalysisStack"
-                component={AnalysisTab}
+                name="Add"
+                component={AddScreen}
                 options={{
                     headerShown: false,
-                    title: "analysis",
+                    title: "add",
                     tabBarIcon: ({ color }) => (
-                        <MaterialCommunityIcons name="align-vertical-bottom" color={color} size={40} />
+                        <MaterialCommunityIcons name="plus-circle-outline" color={color} size={40} />
                     ),
                 }}
             />
@@ -131,6 +123,18 @@ const MyTabs = () => {
                     ),
                 }}
             />
+            <Tab.Screen
+                name="AnalysisStack"
+                component={AnalysisTab}
+                options={{
+                    headerShown: false,
+                    title: "analysis",
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="align-vertical-bottom" color={color} size={40} />
+                    ),
+                }}
+            />
+
             <Tab.Screen
                 name="Lists"
                 component={ListsTab}

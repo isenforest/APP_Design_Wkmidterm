@@ -10,7 +10,7 @@ const moneylist = ({ props }) => {
     const general = useSelector(selectGeneral);
 
     return (
-        <Box w={278} pb={10} borderWidth={2} borderColor="$black" borderRadius="$2xl" mb={20}>
+        <Box w={278} pb={10} borderWidth={2} borderColor="$black" borderRadius="$2xl" mb={20} backgroundColor="#fff">
             <HStack p={10} justifyContent="space-between">
                 <Text color="$black">20{props.date}</Text>
                 <Text color="$red" >${props.money}</Text>

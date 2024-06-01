@@ -38,12 +38,12 @@ const ListScreen = () => {
     ]);
     
     return (
-        <Box flex={1} backgroundColor='#fff' >
-            <Box marginHorizontal={30} mt={20}>
+        <Box flex={1} backgroundColor='#C5F5E1' >
+            <Box marginHorizontal={30} mt={30}>
             <FlatList
                     data={obj}
                     renderItem={({ item }) => (
-                        <HStack justifyContent='space-between' marginBottom={20}>
+                        <HStack justifyContent='space-between' marginBottom={30}>
                             <HStack>
                                 <MaterialCommunityIcons name={item.icon} size={30} />
                                 <Text ml={10} fontWeight='$medium' alignSelf='center' color='#000'>{item.name}</Text>

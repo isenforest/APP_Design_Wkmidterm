@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, HStack, Pressable } from '@gluestack-ui/themed';
+import { Text, HStack, Pressable, Switch } from '@gluestack-ui/themed';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ListItem = ({ title, navigation, destination }) => {
+
+const ListItemalter = ({ title, navigation, destination }) => {
    return (
      <Pressable
        onPress={() => {
@@ -16,10 +18,10 @@ const ListItem = ({ title, navigation, destination }) => {
          justifyContent="space-between"
        >
          <Text fontSize={20} color='#7b7b7b' fontWeight='$medium'>{title}</Text>
-         <AntDesign name="right" color="gray" size={24} />
+         <Switch size='lg' isDisabled={false}/>
        </HStack>
      </Pressable>
    );
 }
 
-export default ListItem;
+export default ListItemalter;
