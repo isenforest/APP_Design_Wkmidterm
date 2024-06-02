@@ -3,12 +3,13 @@ import { Box, Text, HStack, FlatList } from '@gluestack-ui/themed';
 import { PieChart } from 'react-native-chart-kit';
 import { Dimensions, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { selectGeneral, selectMiner } from '../components/redux/counterSlice';
+import { selectGeneral, selectColorMode} from '../components/redux/counterSlice';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Analysis_expenditrueScreen = () => {
     const general = useSelector(selectGeneral);
+    const colorMode = useSelector(selectColorMode);
 
     const generateColor = () => {
         const randomColor = Math.floor(Math.random() * 16777215)
@@ -66,7 +67,7 @@ const Analysis_expenditrueScreen = () => {
     }
 
     return (
-        <Box flex={1} backgroundColor='#C5F5E1'>
+        <Box flex={1} backgroundColor={colorMode == "light" ? "#C5F5E1" : "#4A4A4A"}>
             <PieChart
                 data={data}
                 width={windowWidth - 15}
@@ -82,22 +83,22 @@ const Analysis_expenditrueScreen = () => {
                     renderItem={({ item }) => (
                         <HStack justifyContent='space-between' mb={20}>
                             <HStack>
-                                <MaterialCommunityIcons name={item.icon} size={30} />
-                                <Text ml={10} fontWeight='$medium' alignSelf='center' color='#000'>{item.name}</Text>
+                                <MaterialCommunityIcons name={item.icon} size={30} color={colorMode == "light" ? "black" : "white"}/>
+                                <Text ml={10} fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>{item.name}</Text>
                             </HStack>
-                            <Text fontWeight='$medium' alignSelf='center' color='#000'>${item.populartion}</Text>
+                            <Text fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>${item.populartion}</Text>
                         </HStack>
                     )}
                 />
             </Box>
             <Box marginHorizontal={30} mt={60}>
-                <Text color='#000' fontWeight='$medium' mb={20}>pay most:</Text>
+                <Text color={colorMode == "light" ? "black" : "white"} fontWeight='$medium' mb={20}>pay most:</Text>
                 <HStack justifyContent='space-between' >
                     <HStack>
-                        <MaterialCommunityIcons name={parseInt(general.money) < -500 ? "account" : obj[0].icon} size={30} />
-                        <Text ml={10} fontWeight='$medium' alignSelf='center' color='#000'>{parseInt(general.money) < -500 ? general.type : obj[0].name}</Text>
+                        <MaterialCommunityIcons name={parseInt(general.money) < -500 ? "account" : obj[0].icon} size={30} color={colorMode == "light" ? "black" : "white"}/>
+                        <Text ml={10} fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>{parseInt(general.money) < -500 ? general.type : obj[0].name}</Text>
                     </HStack>
-                    <Text fontWeight='$medium' alignSelf='center' color='#000'>${parseInt(general.money) < -500 ? general.money : obj[0].populartion}</Text>
+                    <Text fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>${parseInt(general.money) < -500 ? general.money : obj[0].populartion}</Text>
                 </HStack>
             </Box>
         </Box>

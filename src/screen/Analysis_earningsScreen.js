@@ -3,13 +3,15 @@ import { Box, Text, HStack, FlatList } from '@gluestack-ui/themed';
 import { PieChart } from 'react-native-chart-kit';
 import { Dimensions, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { selectGeneral, selectMaxer } from '../components/redux/counterSlice';
+import { selectGeneral, selectColorMode } from '../components/redux/counterSlice';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const Analysis_earningScreen = () => {
 
     const general = useSelector(selectGeneral);
+    const colorMode = useSelector(selectColorMode);
 
     const generateColor = () => {
         const randomColor = Math.floor(Math.random() * 16777215)
@@ -51,13 +53,15 @@ const Analysis_earningScreen = () => {
     const chartConfig = {
         backgroundGradientFrom: '#1E2923',
         backgroundGradientTo: '#08130D',
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`
+        color: (opacity = 0.1) => `rgba(26, 255, 255, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+        
     }
 
     const most = parseInt(general.money) > 2000 ? general.money : 2000;
 
     return (
-        <Box flex={1} backgroundColor='#C5F5E1'>
+        <Box flex={1} backgroundColor={colorMode == "light" ? "#C5F5E1" : "#4A4A4A"}>
             <PieChart
                 data={data}
                 width={windowWidth - 15}
@@ -73,22 +77,22 @@ const Analysis_earningScreen = () => {
                     renderItem={({ item }) => (
                         <HStack justifyContent='space-between' mb={20}>
                             <HStack>
-                                <MaterialCommunityIcons name={item.icon} size={30} />
-                                <Text ml={10} fontWeight='$medium' alignSelf='center' color='#000'>{item.name}</Text>
+                                <MaterialCommunityIcons name={item.icon} size={30} color={colorMode == "light" ? "black" : "white"}/>
+                                <Text ml={10} fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>{item.name}</Text>
                             </HStack>
-                            <Text fontWeight='$medium' alignSelf='center' color='#000'>${item.populartion}</Text>
+                            <Text fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>${item.populartion}</Text>
                         </HStack>
                     )}
                 />
             </Box>
             <Box marginHorizontal={30} mt={60}>
-                <Text color='#000' fontWeight='$medium' mb={20}>earn most:</Text>
+                <Text color={colorMode == "light" ? "black" : "white"} fontWeight='$medium' mb={20}>earn most:</Text>
                 <HStack justifyContent='space-between' >
                     <HStack>
-                        <MaterialCommunityIcons name={parseInt(general.money) > 2000 ? "account" : obj[0].icon} size={30} />
-                        <Text ml={10} fontWeight='$medium' alignSelf='center' color='#000'>{parseInt(general.money) > 2000 ? general.type : obj[0].name}</Text>
+                        <MaterialCommunityIcons name={parseInt(general.money) > 2000 ? "account" : obj[0].icon} size={30} color={colorMode == "light" ? "black" : "white"}/>
+                        <Text ml={10} fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>{parseInt(general.money) > 2000 ? general.type : obj[0].name}</Text>
                     </HStack>
-                    <Text fontWeight='$medium' alignSelf='center' color='#000'>${parseInt(general.money) > 2000 ? general.money : 2000}</Text>
+                    <Text fontWeight='$medium' alignSelf='center' color={colorMode == "light" ? "black" : "white"}>${parseInt(general.money) > 2000 ? general.money : 2000}</Text>
                 </HStack>
             </Box>
         </Box>
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     piechart: {
         paddingTop: 20,
         marginBottom: 30
+        
     }
 })
 

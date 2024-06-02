@@ -3,9 +3,11 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Platform } from "react-native";
-import { Pressable, Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem } from '@gluestack-ui/themed';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform, StyleSheet } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { selectColorMode, toggleColorMode } from "../components/redux/counterSlice"
+import { Pressable, HStack, Text, Box, Divider, Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, VStack } from '@gluestack-ui/themed';
+import SelectDropdown from 'react-native-select-dropdown';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -31,6 +33,13 @@ const Navigation = () => {
 
 const MyStack = () => {
     const navigation = useNavigation();
+    const colorMode = useSelector(selectColorMode);
+    const selectlist = [
+        '2024/03',
+        '2024/04',
+        '2024/05',
+        '2024/06',
+    ];
     return (
         <Stack.Navigator
             screenOptions={{
@@ -44,32 +53,42 @@ const MyStack = () => {
                     title: '',
                     headerRight: () => (
                         <Pressable onPress={() => navigation.navigate("Setting")}>
-                            <MaterialCommunityIcons name="cog-outline" size={30} />
+                            <MaterialCommunityIcons name="cog-outline" size={30} color={colorMode == "light" ? "black" : "white"} />
                         </Pressable>
                     ),
                     headerLeft: () => (
-                        <Select initialLabel='2024/03' w={90}>
-                            <SelectTrigger variant="underlined" size="sm">
-                                <SelectInput />
-                                <SelectIcon mr="$3">
-                                    <Icon as={ChevronDownIcon} />
-                                </SelectIcon>
-                            </SelectTrigger>
-                            <SelectPortal>
-                                <SelectBackdrop />
-                                <SelectContent>
-                                    <SelectDragIndicatorWrapper>
-                                        <SelectDragIndicator />
-                                    </SelectDragIndicatorWrapper>
-                                    <SelectItem label="2024/03" value="2403" />
-                                    <SelectItem label="2024/02" value="2402" />
-                                    <SelectItem label="2024/01" value="2401" />
-                                    <SelectItem label="2023/12" value="2312" />
-                                    <SelectItem label="2023/11" value="2311" />
-                                </SelectContent>
-                            </SelectPortal>
-                        </Select>
+                        <SelectDropdown
+                            data={selectlist}
+                            onSelect={(selectItem, index) => {
+                                console.log(selectItem, index);
+                            }}
+                            renderButton={(selectedItem, isOpen) => {
+                                return (
+                                    <Box style={styles.dropdownButtonStyle}>
+                                        <Text style={styles.dropdownButtonTxtStyle} color={colorMode == "light" ? '#151E26' : "white"} >{selectedItem || selectlist[selectlist.length-1]}</Text>
+                                        <Icon as={ChevronDownIcon} color={colorMode == "light" ? "black" : "white"} />
+                                    </Box>
+                                );
+                            }}
+                            renderItem={(item, index, isSelected) => {
+                                return (
+                                    <Box
+                                        style={{
+                                            ...styles.dropdownItemStyle,
+                                            backgroundColor: colorMode === 'light' ? '#E9ECEF' : "#4A4A4A",
+                                            ...(isSelected && { backgroundColor: '#D2D9DF'}),
+                                        }}>
+                                        <Text style={styles.dropdownItemTxtStyle} color={colorMode == 'light' ? '#151E26' : 'white'}>{item}</Text>
+                                    </Box>
+                                );
+                            }}
+                            dropdownStyle={styles.dropdownMenuStyle}
+                        />
+
                     ),
+                    headerStyle: {
+                        backgroundColor: colorMode === "light" ? "white" : "black",
+                    }
                 }}
             />
             <Stack.Screen
@@ -78,8 +97,13 @@ const MyStack = () => {
                 options={{
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
-                        fontSize: 32
-                    }
+                        fontSize: 32,
+                        color: colorMode === 'light' ? "black" : 'white'
+                    },
+                    headerStyle: {
+                        backgroundColor: colorMode === "light" ? "white" : "black",
+                    },
+                    headerTintColor: colorMode === "light" ? "black" : "white"
                 }}
             />
         </Stack.Navigator>
@@ -87,12 +111,14 @@ const MyStack = () => {
 }
 
 const MyTabs = () => {
+    const colorMode = useSelector(selectColorMode);
+    const setColorMode = colorMode == "light" ? "black" : "white";
     return (
         <Tab.Navigator
             initialRouteName="Add"
             screenOptions={{
-                tabBarActiveTintColor: '#000',
-                tabBarStyle: { height: 80, backgroundColor: '#D9D9D9', paddingBottom: Platform.OS === 'ios' ? 12 : 0 },
+                tabBarActiveTintColor: colorMode === "light" ? "black" : "white",
+                tabBarStyle: { height: 80, backgroundColor: colorMode === "light" ? '#D9D9D9' : "black", paddingBottom: Platform.OS === 'ios' ? 12 : 0 },
                 tabBarIconStyle: { marginTop: Platform.OS === 'android' ? 12 : 8 },
                 tabBarLabelStyle: {
                     fontSize: 16,
@@ -152,13 +178,14 @@ const MyTabs = () => {
 }
 
 const AnalysisTab = () => {
+    const colorMode = useSelector(selectColorMode);
     return (
         <TopTab.Navigator
             initialRouteName='expenditure'
             id='Analysis'
             screenOptions={{
                 tabBarStyle: { backgroundColor: '#9d9d9d', height: 56 },
-                tabBarLabelStyle: { textTransform: 'none', fontSize: 16, fontWeight: '600' },
+                tabBarLabelStyle: { textTransform: 'none', fontSize: 16, fontWeight: '600', color: colorMode === 'light' ? 'black' : 'white'},
                 tabBarIndicatorStyle: { backgroundColor: '#000' }
             }}
 
@@ -184,5 +211,170 @@ const ListsTab = () => {
         </TopTab.Navigator>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingVertical: 50,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: 116,
+    },
+    header: {
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        height: 90,
+        backgroundColor: '#E9ECEF',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingBottom: 16,
+    },
+    headerTxt: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#151E26',
+    },
+    dropdownButtonStyle: {
+        width: 130,
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 12,
+    },
+    dropdownButtonTxtStyle: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: '500',
+        textAlign: 'center',
+    },
+    dropdownMenuStyle: {
+        backgroundColor: '#E9ECEF',
+        borderRadius: 8,
+        height: 150,
+    },
+    dropdownItemStyle: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#B1BDC8',
+    },
+    dropdownItemTxtStyle: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: '500',
+        textAlign: 'center',
+    },
+    dropdownItemIconStyle: {
+        fontSize: 28,
+        marginRight: 8,
+    },
+    ////////////// dropdown1
+    dropdown1ButtonStyle: {
+        width: '80%',
+        height: 50,
+        borderRadius: 12,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 12,
+        backgroundColor: '#444444',
+    },
+    dropdown1ButtonTxtStyle: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#FFFFFF',
+        textAlign: 'center',
+    },
+    dropdown1ButtonArrowStyle: {
+        fontSize: 28,
+        color: '#FFFFFF',
+    },
+    dropdown1ButtonIconStyle: {
+        fontSize: 28,
+        marginRight: 8,
+        color: '#FFFFFF',
+    },
+    dropdown1MenuStyle: {
+        backgroundColor: '#444444',
+        borderRadius: 8,
+    },
+    dropdown1ItemStyle: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#B1BDC8',
+    },
+    dropdown1ItemTxtStyle: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#FFFFFF',
+    },
+    dropdown1ItemIconStyle: {
+        fontSize: 28,
+        marginRight: 8,
+        color: '#FFFFFF',
+    },
+    ////////////// dropdown2
+    dropdown2ButtonStyle: {
+        width: '80%',
+        height: 50,
+        borderRadius: 12,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 12,
+        borderWidth: 1,
+        borderColor: '#B1BDC8',
+    },
+    dropdown2ButtonTxtStyle: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#151E26',
+    },
+    dropdown2ButtonArrowStyle: {
+        fontSize: 28,
+    },
+    dropdown2ButtonIconStyle: {
+        fontSize: 28,
+        marginRight: 8,
+    },
+    dropdown2MenuStyle: {
+        backgroundColor: '#FFF',
+        borderRadius: 8,
+    },
+    dropdown2ItemStyle: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#B1BDC8',
+    },
+    dropdown2ItemTxtStyle: {
+        flex: 1,
+        fontSize: 18,
+        fontWeight: '500',
+        color: '#151E26',
+    },
+    dropdown2ItemIconStyle: {
+        fontSize: 28,
+        marginRight: 8,
+    },
+});
 
 export default Navigation;
