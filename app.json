@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "mid_10_speedyaccounts",
+    "slug": "mid_10_speedyaccounts",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0d2f2dd9-b5e2-4be4-9bfe-7bc9e9d980b3"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0d2f2dd9-b5e2-4be4-9bfe-7bc9e9d980b3"
+      }
+    }
+  }
+}
